@@ -1,41 +1,196 @@
-<div class="header">
-    <img src="{{logo_csi}}" alt="CSI GemLab">
-    <h1>Consulta Pública de Certificação Gemológica</h1>
-    <h2>CSI GemLab</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CSI GemLab — Exames Técnicos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    background: #05070c;
+    font-family: 'League Spartan', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+h1, h2 {
+    text-align: center;
+    text-shadow: 0 0 10px #00f3ff;
+    font-weight: 700;
+}
+
+.card {
+    background: rgba(10, 15, 30, 0.65);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 25px;
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+}
+
+.json-box {
+    background: rgba(0,0,0,0.4);
+    padding: 15px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    font-size: 16px;
+    border: 1px solid #00f3ff;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.image-grid img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+}
+.button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    background: #00b4d8;
+    color: #000;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 15px #00f3ff;
+    cursor: pointer;
+    border: none;
+    font-size: 18px;
+}
+
+.button:hover {
+    background: #ffe600;
+    box-shadow: 0 0 20px #ffe600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>CSI GemLab</h1>
+    <h2>Resultados Técnicos dos Motores Periciais</h2>
+
+    <div class="card">
+        <p>
+            Esta página apresenta os resultados completos dos motores periciais digitais executados
+            pelo sistema CSI GemLab. Cada motor realiza análises específicas, podendo gerar:
+        </p>
+
+        <ul>
+            <li>Relatórios estruturados (JSON)</li>
+            <li>Imagens técnicas</li>
+            <li>Dados complementares</li>
+        </ul>
+
+        <p>
+            Abaixo você encontrará cada exame separado, organizado e apresentado de forma clara
+            para consulta pública avançada.
+        </p>
+    </div>
+
+    <!-- MOTOR 01 -->
+    <div class="card">
+        <h2>Exame 01 — Motor 01</h2>
+        <div class="json-box">
+            <script>
+                fetch("relatorio_motor_01.json")
+                    .then(r => r.text())
+                    .then(t => document.write(t));
+            </script>
+        </div>
+    </div>
+
+    <!-- MOTOR 02 -->
+    <div class="card">
+        <h2>Exame 02 — Motor 02</h2>
+        <div class="json-box">
+            <script>
+                fetch("relatorio_motor_02.json")
+                    .then(r => r.text())
+                    .then(t => document.write(t));
+            </script>
+        </div>
+    </div>
+
+    <!-- MOTOR 03 -->
+    <div class="card">
+        <h2>Exame 03 — Motor 03</h2>
+        <div class="json-box">
+            <script>
+                fetch("relatorio_motor_03.json")
+                    .then(r => r.text())
+                    .then(t => document.write(t));
+            </script>
+        </div>
+    </div>
+
+    <!-- MOTOR 04 (IMAGENS) -->
+    <div class="card">
+        <h2>Exame 04 — Motor 04 (Imagens)</h2>
+        <div class="image-grid">
+            <script>
+                const imgs4 = [
+                    "relatorio_motor_04/imagem_01 - Copia (2).jpg",
+                    "relatorio_motor_04/imagem_01 - Copia (3).jpg",
+                    "relatorio_motor_04/imagem_01 - Copia.jpg"
+                ];
+                imgs4.forEach(src => document.write(`<img src="${src}">`));
+            </script>
+        </div>
+    </div>
+
+    <!-- MOTOR 05 (IMAGENS) -->
+    <div class="card">
+        <h2>Exame 05 — Motor 05 (Imagens)</h2>
+        <div class="image-grid">
+            <script>
+                const imgs5 = [
+                    "relatorio_motor_05/imagem_01 - Copia (2).jpg",
+                    "relatorio_motor_05/imagem_01 - Copia (3).jpg",
+                    "relatorio_motor_05/imagem_01 - Copia.jpg"
+                ];
+                imgs5.forEach(src => document.write(`<img src="${src}">`));
+            </script>
+        </div>
+    </div>
+
+    <!-- MOTOR 06 (IMAGENS) -->
+    <div class="card">
+        <h2>Exame 06 — Motor 06 (Imagens)</h2>
+        <div class="image-grid">
+            <script>
+                const imgs6 = [
+                    "relatorio_motor_06/imagem_01 - Copia (2).jpg",
+                    "relatorio_motor_06/imagem_01 - Copia (3).jpg",
+                    "relatorio_motor_06/imagem_01 - Copia.jpg"
+                ];
+                imgs6.forEach(src => document.write(`<img src="${src}">`));
+            </script>
+        </div>
+    </div>
+
+    <button class="button" onclick="window.location.href='../pagina_03/pagina_03.html'">
+        Avançar para Verificação Final
+    </button>
+
 </div>
 
-<div class="auth">
-    <label>TOKEN da Gema:</label>
-    <input type="text" value="{{token_gema}}" readonly="{{qr_autofill}}">
-    <button>Validar Certificado</button>
-</div>
-
-<div class="certificado">
-    <h3>Certificado — Frente</h3>
-    <img src="{{frente_img}}">
-
-    <h3>Certificado — Verso</h3>
-    <img src="{{verso_img}}">
-</div>
-
-<div class="dados-basicos">
-    <h3>Dados Básicos da Gema</h3>
-    <p>Tipo: {{tipo_pedra}}</p>
-    <p>Cor: {{cor}}</p>
-    <p>Peso (ct): {{peso_ct}}</p>
-    <p>Tamanho (mm): {{tamanho_mm}}</p>
-    <p>Lapidação: {{lapidacao}}</p>
-    <p>Transparência: {{transparencia}}</p>
-
-    <p>Código do Laudo (TOKEN da Gema): {{token_gema}}</p>
-    <p>Número do Certificado: {{numero_certificado}}</p>
-    <p>Data da Emissão: {{data_emissao}}</p>
-</div>
-
-<div class="avancar">
-    <button>Acessar Detalhes Técnicos</button>
-</div>
-
-<div class="seguranca">
-    <p>Esta é uma consulta pública. Informações técnicas avançadas só podem ser acessadas com a senha impressa no certificado físico.</p>
-</div>
+</body>
+</html>
