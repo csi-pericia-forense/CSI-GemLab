@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <title>CSI GemLab — Laudo Patrimonial</title>
 
+<!-- Fonte oficial CSI: League Spartan -->
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
 body {
     background: #05070c;
-    font-family: Arial, sans-serif;
+    font-family: 'League Spartan', sans-serif;
     color: #fff;
     margin: 0;
     padding: 20px;
@@ -21,6 +24,7 @@ body {
 h1, h2 {
     text-align: center;
     text-shadow: 0 0 10px #00f3ff;
+    font-weight: 700;
 }
 
 .card {
@@ -46,12 +50,14 @@ img.certificado {
     margin-top: 25px;
     background: #00b4d8;
     color: #000;
-    font-weight: bold;
+    font-weight: 700;
     text-align: center;
     border-radius: 8px;
     text-decoration: none;
     box-shadow: 0 0 15px #00f3ff;
     cursor: pointer;
+    border: none;
+    font-size: 18px;
 }
 
 .button:hover {
@@ -67,7 +73,8 @@ img.certificado {
     border: 1px solid #00f3ff;
     background: rgba(0,0,0,0.4);
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
+    font-family: 'League Spartan', sans-serif;
 }
 </style>
 </head>
@@ -108,3 +115,25 @@ img.certificado {
         <input id="senha" class="input-field" type="password" placeholder="Digite a senha do certificado">
 
         <button class="button" onclick="validarSenha()">Acessar Detalhes Técnicos</button>
+    </div>
+
+</div>
+
+<script>
+async function validarSenha() {
+    const senhaDigitada = document.getElementById("senha").value;
+
+    // Carrega a senha do arquivo
+    const resposta = await fetch("../senha/senha.csi");
+    const senhaCorreta = (await resposta.text()).trim();
+
+    if (senhaDigitada === senhaCorreta) {
+        window.location.href = "../pagina_02/pagina_02.html";
+    } else {
+        alert("Senha incorreta. Verifique o certificado físico.");
+    }
+}
+</script>
+
+</body>
+</html>
