@@ -28,22 +28,21 @@
         html, body {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 50% 40%, rgba(10, 25, 45, 0.8) 0%, var(--bg-dark) 70%),
+                radial-gradient(circle at 50% 20%, rgba(10, 25, 45, 0.8) 0%, var(--bg-dark) 70%),
                 linear-gradient(135deg, rgba(10, 15, 30, 0.3) 0%, transparent 100%);
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             width: 100%;
-            min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto !important; /* FORÇA A ROLAGEM VERTICAL */
+            height: 100vh;
+            overflow: hidden;
         }
 
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 50px 20px;
+            justify-content: flex-start;
+            padding-top: 15px; /* Puxado bem para o topo */
         }
 
         .wrapper {
@@ -60,7 +59,7 @@
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 40px 30px;
+            padding: 20px 25px; /* Reduzido o padding vertical em ~50% */
             width: 100%;
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-blue-glow);
             text-align: center;
@@ -71,20 +70,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 18px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 15px; /* Margem reduzida */
         }
 
         .csi-shield {
-            width: 50px;
-            height: 50px;
+            width: 36px;
+            height: 36px;
             fill: var(--accent-blue);
             filter: drop-shadow(0 0 8px var(--accent-blue-glow));
         }
 
         .brand-title {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 34px;
+            font-size: 28px;
             font-weight: 700;
             letter-spacing: 3px;
             color: var(--text-main);
@@ -94,30 +93,30 @@
 
         .card label {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             letter-spacing: 2px;
             color: var(--accent-yellow);
             display: block;
-            margin-bottom: 18px;
+            margin-bottom: 10px; /* Margem reduzida */
             text-shadow: 0 0 10px var(--accent-yellow-glow);
             text-transform: uppercase;
         }
 
         .input-action-group {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         input {
             flex: 1;
-            padding: 16px 20px;
+            padding: 12px 16px;
             background: rgba(2, 6, 23, 0.9);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             color: #fff;
             outline: none;
             transition: all 0.3s ease;
@@ -129,14 +128,14 @@
         }
 
         button {
-            padding: 16px 28px;
+            padding: 12px 22px;
             background: linear-gradient(135deg, #0077b6, #00b4d8);
             color: #fff;
             border: 1px solid var(--accent-blue);
             border-radius: 8px;
             cursor: pointer;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -152,10 +151,10 @@
         }
 
         #mensagem-status {
-            margin-top: 25px;
-            font-size: 14px;
+            margin-top: 12px;
+            font-size: 13px;
             font-weight: 500;
-            min-height: 25px;
+            min-height: 20px;
         }
 
         .status-erro { color: #ff4444; text-shadow: 0 0 8px rgba(255, 68, 68, 0.6); }
