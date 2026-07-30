@@ -121,19 +121,18 @@ img.certificado {
 
 <script>
 async function validarSenha() {
-    const senhaDigitada = document.getElementById("senha").value;
+    const senhaDigitada = document.getElementById("senha").value.trim();
 
-    // Carrega a senha do arquivo
-    const resposta = await fetch("../senha/senha.csi");
-    const senhaCorreta = (await resposta.text()).trim();
-
-    if (senhaDigitada === senhaCorreta) {
-        window.location.href = "../pagina_02/pagina_02.html";
-    } else {
-        alert("Senha incorreta. Verifique o certificado físico.");
+    if (!senhaDigitada) {
+        alert("SENHA INCORRETA amigo, ok?");
+        return;
     }
-}
-</script>
 
-</body>
-</html>
+    try {
+        const resposta = await fetch("../senha/senha.csi");
+        const senhaCorreta = (await resposta.text()).trim();
+
+        if (senhaDigitada === senhaCorreta) {
+            window.location.href = "../pagina_02/pagina_02.html";
+        } else {
+            alert("SENHA INCORRETA amigo, ok?");
