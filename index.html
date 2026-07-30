@@ -8,153 +8,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --accent-yellow: #ffe600;
-            --accent-yellow-glow: rgba(255, 230, 0, 0.4);
-            --accent-blue: #00f3ff;
-            --accent-blue-glow: rgba(0, 243, 255, 0.3);
-            --text-main: #ffffff;
-            --glass-bg: rgba(8, 12, 24, 0.85);
-            --glass-border: rgba(0, 243, 255, 0.2);
-        }
+/* Remove fundo da seção do Webnode */
+section, .wn-section, .wn-content, #content, #main, .section-bg {
+    background: transparent !important;
+    background-color: transparent !important;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+/* Remove qualquer overlay azul */
+section::before, section::after,
+.wn-section::before, .wn-section::after {
+    background: transparent !important;
+}
 
-        /* Fundo 100% transparente para sumir com qualquer quadrado externo */
-        html, body {
-            background: transparent !important;
-            font-family: 'Inter', sans-serif;
-            color: var(--text-main);
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
+/* Remove padding gigante da seção */
+section, .wn-section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+</style>
 
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 2px;
-        }
+<iframe 
+    src="https://csi-pericia-forense.github.io/CSI-GemLab/index.html"
+    style="width:100%; height:160vh; border:none; display:block;"
+    scrolling="yes">
+</iframe>
 
-        .wrapper {
-            width: 100%;
-            max-width: 340px; /* Reduzido em cerca de 35% o tamanho geral */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            padding: 10px 16px;
-            width: 100%;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            text-align: center;
-        }
-
-        .logo-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-
-        .csi-shield {
-            width: 22px;
-            height: 22px;
-            fill: var(--accent-blue);
-            filter: drop-shadow(0 0 5px var(--accent-blue-glow));
-        }
-
-        .brand-title {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            color: var(--text-main);
-            text-shadow: 0 0 8px var(--accent-blue-glow);
-            text-transform: uppercase;
-        }
-
-        .card label {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: var(--accent-yellow);
-            display: block;
-            margin-bottom: 4px;
-            text-shadow: 0 0 6px var(--accent-yellow-glow);
-            text-transform: uppercase;
-        }
-
-        .input-action-group {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-        }
-
-        input {
-            flex: 1;
-            padding: 7px 10px;
-            background: rgba(2, 6, 23, 0.9);
-            border: 1px solid var(--glass-border);
-            border-radius: 5px;
-            font-size: 13px;
-            color: #fff;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 10px var(--accent-blue-glow);
-        }
-
-        button {
-            padding: 7px 14px;
-            background: linear-gradient(135deg, #0077b6, #00b4d8);
-            color: #fff;
-            border: 1px solid var(--accent-blue);
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: var(--accent-yellow);
-            color: #000;
-            border-color: var(--accent-yellow);
-            box-shadow: 0 0 15px var(--accent-yellow-glow);
-        }
-
-        #mensagem-status {
-            margin-top: 4px;
-            font-size: 11px;
-            font-weight: 500;
-            min-height: 14px;
-        }
-
-        .status-erro { color: #ff4444; }
-        .status-sucesso { color: var(--accent-blue); }
-        .status-info { color: var(--accent-yellow); }
-    </style>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
