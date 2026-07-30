@@ -57,6 +57,16 @@ img.certificado {
     background: #ffe600;
     box-shadow: 0 0 20px #ffe600;
 }
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #00f3ff;
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+}
 </style>
 </head>
 
@@ -78,7 +88,7 @@ img.certificado {
     <div class="card">
         <h2>Dados Básicos da Gema</h2>
 
-        <p><strong>Tipo:</strong> Diamante (exemplo)</p>
+        <p><strong>Tipo:</strong> Diamante</p>
         <p><strong>Cor:</strong> Transparente</p>
         <p><strong>Peso:</strong> 1.25 ct</p>
         <p><strong>Tamanho:</strong> 6.5 mm</p>
@@ -89,7 +99,12 @@ img.certificado {
         <p><strong>Data da Emissão:</strong> 25/06/2025</p>
     </div>
 
-    <a class="button" href="../pagina_02/pagina_02.html">Acessar Detalhes Técnicos</a>
+    <div class="card">
+        <h2>Senha do Certificado</h2>
+        <p>Digite a senha impressa no certificado físico para acessar os detalhes técnicos.</p>
+        <input class="input-field" type="password" placeholder="Digite a senha">
+        <a class="button" href="../pagina_02/pagina_02.html">Acessar Detalhes Técnicos</a>
+    </div>
 
 </div>
 
