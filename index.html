@@ -9,14 +9,13 @@
 
     <style>
         :root {
-            --bg-dark: #05070c;
             --accent-yellow: #ffe600;
             --accent-yellow-glow: rgba(255, 230, 0, 0.5);
             --accent-blue: #00f3ff;
             --accent-blue-glow: rgba(0, 243, 255, 0.5);
             --text-main: #ffffff;
-            --glass-bg: rgba(10, 15, 30, 0.65);
-            --glass-border: rgba(0, 243, 255, 0.2);
+            --glass-bg: rgba(10, 15, 30, 0.75);
+            --glass-border: rgba(0, 243, 255, 0.25);
         }
 
         * {
@@ -25,11 +24,9 @@
             padding: 0;
         }
 
+        /* Fundo 100% transparente para sumir com qualquer box externo ou fundo indesejado */
         html, body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 50% 20%, rgba(10, 25, 45, 0.8) 0%, var(--bg-dark) 70%),
-                linear-gradient(135deg, rgba(10, 15, 30, 0.3) 0%, transparent 100%);
+            background: transparent !important;
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             width: 100%;
@@ -42,7 +39,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 15px; /* Puxado bem para o topo */
+            padding-top: 5px; 
         }
 
         .wrapper {
@@ -55,13 +52,13 @@
 
         .card {
             background: var(--glass-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 20px 25px; /* Reduzido o padding vertical em ~50% */
+            border-radius: 12px;
+            padding: 12px 20px; /* Reduzido ainda mais na vertical */
             width: 100%;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-blue-glow);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-blue-glow);
             text-align: center;
             position: relative;
         }
@@ -70,53 +67,52 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 15px; /* Margem reduzida */
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
         .csi-shield {
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
             fill: var(--accent-blue);
-            filter: drop-shadow(0 0 8px var(--accent-blue-glow));
+            filter: drop-shadow(0 0 6px var(--accent-blue-glow));
         }
 
         .brand-title {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--text-main);
-            text-shadow: 0 0 15px var(--accent-blue-glow);
+            text-shadow: 0 0 10px var(--accent-blue-glow);
             text-transform: uppercase;
         }
 
         .card label {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             color: var(--accent-yellow);
             display: block;
-            margin-bottom: 10px; /* Margem reduzida */
-            text-shadow: 0 0 10px var(--accent-yellow-glow);
+            margin-bottom: 6px;
+            text-shadow: 0 0 8px var(--accent-yellow-glow);
             text-transform: uppercase;
         }
 
         .input-action-group {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             width: 100%;
-            margin-top: 5px;
         }
 
         input {
             flex: 1;
-            padding: 12px 16px;
+            padding: 9px 14px;
             background: rgba(2, 6, 23, 0.9);
             border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 6px;
+            font-size: 14px;
             color: #fff;
             outline: none;
             transition: all 0.3s ease;
@@ -124,42 +120,42 @@
 
         input:focus {
             border-color: var(--accent-blue);
-            box-shadow: 0 0 15px var(--accent-blue-glow);
+            box-shadow: 0 0 12px var(--accent-blue-glow);
         }
 
         button {
-            padding: 12px 22px;
+            padding: 9px 18px;
             background: linear-gradient(135deg, #0077b6, #00b4d8);
             color: #fff;
             border: 1px solid var(--accent-blue);
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             transition: all 0.4s ease;
-            box-shadow: 0 0 15px var(--accent-blue-glow);
+            box-shadow: 0 0 12px var(--accent-blue-glow);
         }
 
         button:hover {
             background: var(--accent-yellow);
             color: #000;
             border-color: var(--accent-yellow);
-            box-shadow: 0 0 30px var(--accent-yellow-glow);
+            box-shadow: 0 0 20px var(--accent-yellow-glow);
         }
 
         #mensagem-status {
-            margin-top: 12px;
-            font-size: 13px;
+            margin-top: 6px;
+            font-size: 12px;
             font-weight: 500;
-            min-height: 20px;
+            min-height: 16px;
         }
 
-        .status-erro { color: #ff4444; text-shadow: 0 0 8px rgba(255, 68, 68, 0.6); }
-        .status-sucesso { color: var(--accent-blue); text-shadow: 0 0 8px var(--accent-blue-glow); }
-        .status-info { color: var(--accent-yellow); text-shadow: 0 0 8px var(--accent-yellow-glow); }
+        .status-erro { color: #ff4444; text-shadow: 0 0 6px rgba(255, 68, 68, 0.6); }
+        .status-sucesso { color: var(--accent-blue); text-shadow: 0 0 6px var(--accent-blue-glow); }
+        .status-info { color: var(--accent-yellow); text-shadow: 0 0 6px var(--accent-yellow-glow); }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
@@ -169,7 +165,7 @@
         const firebaseConfig = {
             apiKey: "SUA_API_KEY",
             authDomain: "SEU_DOMINIO.firebaseapp.com",
-            projectId: "SEU_PROJECT_ID",
+            projectId: "SUA_PROJECT_ID",
             storageBucket: "SEU_BUCKET.appspot.com",
             messagingSenderId: "SUA_SENDER_ID",
             appId: "SUA_APP_ID"
