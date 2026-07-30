@@ -1,41 +1,97 @@
-<div class="header">
-    <img src="{{logo_csi}}" alt="CSI GemLab">
-    <h1>Consulta Pública de Certificação Gemológica</h1>
-    <h2>CSI GemLab</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CSI GemLab — Laudo Patrimonial</title>
+
+<style>
+body {
+    background: #05070c;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+h1, h2 {
+    text-align: center;
+    text-shadow: 0 0 10px #00f3ff;
+}
+
+.card {
+    background: rgba(10, 15, 30, 0.65);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 25px;
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+}
+
+img.certificado {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    background: #00b4d8;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 15px #00f3ff;
+}
+
+.button:hover {
+    background: #ffe600;
+    box-shadow: 0 0 20px #ffe600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>CSI GemLab</h1>
+    <h2>Consulta Pública — Laudo Patrimonial</h2>
+
+    <div class="card">
+        <h2>Certificado — Frente</h2>
+        <img class="certificado" src="../certificado/certificado_frente.jpg" alt="Certificado Frente">
+
+        <h2>Certificado — Verso</h2>
+        <img class="certificado" src="../certificado/certificado_verso.jpg" alt="Certificado Verso">
+    </div>
+
+    <div class="card">
+        <h2>Dados Básicos da Gema</h2>
+
+        <p><strong>Tipo:</strong> Diamante (exemplo)</p>
+        <p><strong>Cor:</strong> Transparente</p>
+        <p><strong>Peso:</strong> 1.25 ct</p>
+        <p><strong>Tamanho:</strong> 6.5 mm</p>
+        <p><strong>Lapidação:</strong> Brilhante</p>
+        <p><strong>Transparência:</strong> Alta</p>
+        <p><strong>Código do Laudo:</strong> CSI-DATA-HHMMSS-TESTE</p>
+        <p><strong>Número do Certificado:</strong> 22052025PG</p>
+        <p><strong>Data da Emissão:</strong> 25/06/2025</p>
+    </div>
+
+    <a class="button" href="../pagina_02/pagina_02.html">Acessar Detalhes Técnicos</a>
+
 </div>
 
-<div class="auth">
-    <label>TOKEN da Gema:</label>
-    <input type="text" value="{{token_gema}}" readonly="{{qr_autofill}}">
-    <button>Validar Certificado</button>
-</div>
-
-<div class="certificado">
-    <h3>Certificado — Frente</h3>
-    <img src="{{frente_img}}">
-
-    <h3>Certificado — Verso</h3>
-    <img src="{{verso_img}}">
-</div>
-
-<div class="dados-basicos">
-    <h3>Dados Básicos da Gema</h3>
-    <p>Tipo: {{tipo_pedra}}</p>
-    <p>Cor: {{cor}}</p>
-    <p>Peso (ct): {{peso_ct}}</p>
-    <p>Tamanho (mm): {{tamanho_mm}}</p>
-    <p>Lapidação: {{lapidacao}}</p>
-    <p>Transparência: {{transparencia}}</p>
-
-    <p>Código do Laudo (TOKEN da Gema): {{token_gema}}</p>
-    <p>Número do Certificado: {{numero_certificado}}</p>
-    <p>Data da Emissão: {{data_emissao}}</p>
-</div>
-
-<div class="avancar">
-    <button>Acessar Detalhes Técnicos</button>
-</div>
-
-<div class="seguranca">
-    <p>Esta é uma consulta pública. Informações técnicas avançadas só podem ser acessadas com a senha impressa no certificado físico.</p>
-</div>
+</body>
+</html>
