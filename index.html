@@ -1,285 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSI GemLab - Consulta de Laudos</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>CSI GemLab - Consulta</title>
 
-    <style>
-        :root {
-            --neon-blue: #00f3ff;
-            --neon-blue-glow: rgba(0, 243, 255, 0.4);
-            --dark-bg: #030712;
-            --glass-bg: rgba(13, 27, 42, 0.6);
-            --glass-border: rgba(0, 243, 255, 0.2);
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(circle at top left, #00111a, #000000);
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #d9eaff;
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    /* HEADER FUTURISTA */
+    .header {
+        background: rgba(0, 40, 70, 0.6);
+        backdrop-filter: blur(12px);
+        padding: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        border-bottom: 2px solid #00aaff;
+        box-shadow: 0 0 25px #0088ff;
+        animation: glowHeader 3s infinite alternate;
+    }
+
+    @keyframes glowHeader {
+        from { box-shadow: 0 0 15px #005577; }
+        to { box-shadow: 0 0 35px #00aaff; }
+    }
+
+    .header img {
+        height: 85px;
+        filter: drop-shadow(0 0 10px #00aaff);
+    }
+
+    .header h1 {
+        font-size: 32px;
+        letter-spacing: 2px;
+        text-shadow: 0 0 12px #00aaff;
+    }
+
+    /* CONTAINER */
+    .container {
+        margin-top: 80px;
+        font-size: 22px;
+        animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* INPUT FUTURISTA */
+    input {
+        padding: 14px;
+        width: 300px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: 2px solid #00aaff;
+        background: rgba(0, 20, 40, 0.7);
+        color: #d9eaff;
+        outline: none;
+        box-shadow: 0 0 12px #005577;
+        transition: 0.3s;
+    }
+
+    input:focus {
+        box-shadow: 0 0 18px #00aaff;
+        border-color: #00ccff;
+    }
+
+    /* BOTÃO NEON */
+    button {
+        padding: 14px 30px;
+        background: linear-gradient(90deg, #00aaff, #00ffcc);
+        color: #00111a;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: 10px;
+        box-shadow: 0 0 15px #00aaff;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        box-shadow: 0 0 25px #00ffcc;
+        transform: scale(1.05);
+    }
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "SUA_API_KEY",
+        authDomain: "SEU_DOMINIO.firebaseapp.com",
+        projectId: "SEU_PROJECT_ID",
+        storageBucket: "SEU_BUCKET.appspot.com",
+        messagingSenderId: "SEU_SENDER_ID",
+        appId: "SEU_APP_ID"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function consultarLaudo() {
+        const token = document.getElementById("token").value.trim();
+
+        if (token === "") {
+            alert("Digite um token válido.");
+            return;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            background-image: 
-                radial-gradient(circle at 50% 20%, rgba(0, 119, 182, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 40%);
-            font-family: 'Inter', sans-serif;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* Header Tecnológico */
-        .header {
-            background: rgba(3, 7, 18, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        .header img {
-            height: 55px;
-            filter: drop-shadow(0 0 8px var(--neon-blue-glow));
-        }
-
-        .header h1 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-blue-glow);
-            text-transform: uppercase;
-        }
-
-        /* Container Principal com Efeito Glass & Blur */
-        .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 40px 30px;
-            width: 100%;
-            max-width: 440px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 20px rgba(0, 243, 255, 0.05);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-blue));
-            animation: scanLine 3s linear infinite;
-        }
-
-        .card label {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: #b8c1ec;
-            display: block;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        input {
-            flex: 1;
-            padding: 14px 16px;
-            background: rgba(3, 7, 18, 0.6);
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            border-radius: 8px;
-            font-size: 16px;
-            color: #fff;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        input:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 12px var(--neon-blue-glow);
-            background: rgba(3, 7, 18, 0.9);
-        }
-
-        button {
-            padding: 14px 24px;
-            background: linear-gradient(135deg, #0077b6, #00b4d8);
-            color: #fff;
-            border: 1px solid var(--neon-blue);
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 180, 216, 0.4);
-        }
-
-        button:hover {
-            background: var(--neon-blue);
-            color: var(--dark-bg);
-            box-shadow: 0 0 20px var(--neon-blue);
-            transform: translateY(-2px);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* Mensagens de Feedback Estilizadas (Substitui os alerts feios) */
-        #mensagem-status {
-            margin-top: 15px;
-            font-size: 14px;
-            font-weight: 500;
-            min-height: 20px;
-            transition: opacity 0.3s ease;
-        }
-
-        .erro {
-            color: #ff4d4d;
-            text-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
-        }
-
-        .sucesso {
-            color: var(--neon-blue);
-            text-shadow: 0 0 8px var(--neon-blue-glow);
-        }
-
-        /* Animações */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes scanLine {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-    </style>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
-    <script>
-        const firebaseConfig = {
-            apiKey: "SUA_API_KEY",
-            authDomain: "SEU_DOMINIO.firebaseapp.com",
-            projectId: "SUA_PROJECT_ID",
-            storageBucket: "SEU_BUCKET.appspot.com",
-            messagingSenderId: "SUA_SENDER_ID",
-            appId: "SUA_APP_ID"
-        };
-
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        function consultarLaudo() {
-            const tokenInput = document.getElementById("token");
-            const statusDiv = document.getElementById("mensagem-status");
-            const token = tokenInput.value.trim();
-
-            if (token === "") {
-                statusDiv.className = "erro";
-                statusDiv.innerText = "⚠️ Digite um token válido para consulta.";
-                tokenInput.focus();
-                return;
+        db.collection("laudos").doc(token).get().then((doc) => {
+            if (doc.exists) {
+                window.location.href = doc.data().url;
+            } else {
+                alert("Token não encontrado.");
             }
-
-            statusDiv.className = "sucesso";
-            statusDiv.innerText = "🔍 Localizando registro no banco de dados...";
-
-            db.collection("laudos").doc(token).get().then((doc) => {
-                if (doc.exists) {
-                    statusDiv.innerText = "✓ Laudo localizado. Redirecionando...";
-                    setTimeout(() => {
-                        window.location.href = doc.data().url;
-                    }, 600);
-                } else {
-                    statusDiv.className = "erro";
-                    statusDiv.innerText = "❌ Token não encontrado no sistema.";
-                }
-            }).catch((error) => {
-                statusDiv.className = "erro";
-                statusDiv.innerText = "⚠️ Erro de conexão com o servidor.";
-            });
-        }
-
-        // Permitir consulta apertando "Enter"
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("token").addEventListener("keypress", (event) => {
-                if (event.key === "Enter") {
-                    consultarLaudo();
-                }
-            });
         });
-    </script>
+    }
+</script>
+
 </head>
+
 <body>
 
-    <div class="header">
-        <img src="https://i.imgur.com/8Yq7ZQk.png" alt="CSI Logo">
-        <h1>CSI Perícia Forense</h1>
-    </div>
+<div class="header">
+    <img src="https://i.imgur.com/8Yq7ZQk.png" alt="CSI Logo">
+    <h1>CSI Perícia</h1>
+</div>
 
-    <div class="container">
-        <div class="card">
-            <label for="token">Insira o Token do Laudo</label>
-            <div class="input-group">
-                <input id="token" type="text" placeholder="Ex: AB12345" autocomplete="off">
-                <button onclick="consultarLaudo()">Consultar</button>
-            </div>
-            <div id="mensagem-status"></div>
-        </div>
-    </div>
+<div class="container">
+    <label for="token">Insira o token do laudo:</label><br><br>
+    <input id="token" type="text" placeholder="Ex: AB12345">
+    <button onclick="consultarLaudo()">Consultar</button>
+</div>
 
 </body>
 </html>
