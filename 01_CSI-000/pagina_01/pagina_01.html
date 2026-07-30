@@ -51,6 +51,7 @@ img.certificado {
     border-radius: 8px;
     text-decoration: none;
     box-shadow: 0 0 15px #00f3ff;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -66,6 +67,7 @@ img.certificado {
     border: 1px solid #00f3ff;
     background: rgba(0,0,0,0.4);
     color: #fff;
+    font-size: 16px;
 }
 </style>
 </head>
@@ -101,12 +103,8 @@ img.certificado {
 
     <div class="card">
         <h2>Senha do Certificado</h2>
-        <p>Digite a senha impressa no certificado físico para acessar os detalhes técnicos.</p>
-        <input class="input-field" type="password" placeholder="Digite a senha">
-        <a class="button" href="../pagina_02/pagina_02.html">Acessar Detalhes Técnicos</a>
-    </div>
+        <p>Insira a senha impressa no certificado físico para acessar os detalhes técnicos.</p>
 
-</div>
+        <input id="senha" class="input-field" type="password" placeholder="Digite a senha do certificado">
 
-</body>
-</html>
+        <button class="button" onclick="validarSenha()">Acessar Detalhes Técnicos</button>
