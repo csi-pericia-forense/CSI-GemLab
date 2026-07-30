@@ -1,124 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>CSI GemLab – Consulta</title>
+    <meta charset="UTF-8">
+    <title>CSI GemLab - Consulta</title>
 
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <!-- Ajuste para Webnode (remove espaço gigante no topo) -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0 !important;
+        }
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
-      font-family: Arial, sans-serif;
-      color: #fff;
-    }
+        #wn-container,
+        .wn-content,
+        .wn-section {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
 
-    /* BANNER FINO E PROFISSIONAL */
-    .banner {
-      width: 100%;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
+        /* Sobe o header azul */
+        .header {
+            background-color: #0a3d62;
+            color: white;
+            padding: 15px 20px;
+            margin-top: 0 !important;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-      /* Borda neon fina */
-      border-bottom: 2px solid #00aaff;
-      box-shadow: 0 0 6px #00aaff;
+        .header img {
+            height: 60px;
+        }
 
-      /* Fundo totalmente transparente */
-      background: transparent;
-    }
+        .container {
+            margin-top: 40px;
+            text-align: center;
+        }
 
-    .banner label {
-      font-size: 16px;
-      color: #ffffff;
-      font-weight: bold;
-      text-shadow: 0 0 6px #00aaff;
-    }
+        input {
+            padding: 10px;
+            width: 250px;
+            font-size: 16px;
+        }
 
-    .banner input {
-      padding: 8px;
-      font-size: 15px;
-      border-radius: 5px;
-      border: 2px solid #00aaff;
-      background: transparent;
-      color: #fff;
-      width: 200px;
-      outline: none;
-      box-shadow: 0 0 6px #0077aa;
-    }
+        button {
+            padding: 10px 20px;
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    .banner button {
-      padding: 8px 16px;
-      font-size: 15px;
-      background: #00aaff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #000;
-      font-weight: bold;
-      box-shadow: 0 0 10px #00aaff;
-      transition: 0.2s;
-    }
+        button:hover {
+            background-color: #74b9ff;
+        }
+    </style>
 
-    .banner button:hover {
-      background: #33cfff;
-      box-shadow: 0 0 14px #33cfff;
-    }
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
-    /* Resultado – também transparente */
-    #resultado {
-      margin-top: 15px;
-      padding: 10px;
-      font-size: 15px;
-      color: #fff;
-      background: transparent;
-      border-left: 3px solid #00aaff;
-    }
-  </style>
+    <script>
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_DOMINIO.firebaseapp.com",
+            projectId: "SEU_PROJECT_ID",
+            storageBucket: "SEU_BUCKET.appspot.com",
+            messagingSenderId: "SEU_SENDER_ID",
+            appId: "SEU_APP_ID"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function consultarLaudo() {
+            const token = document.getElementById("token").value.trim();
+
+            if (token === "") {
+                alert("Digite um token válido.");
+                return;
+            }
+
+            db.collection("laudos").doc(token).get().then((doc) => {
+                if (doc.exists) {
+                    window.location.href = doc.data().url;
+                } else {
+                    alert("Token não encontrado.");
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>
 
-<div class="banner">
-  <label>Insira o token do laudo:</label>
-  <input id="campoToken" placeholder="Ex: AB12345">
-  <button onclick="buscarLaudo()">Consultar</button>
-</div>
+    <div class="header">
+        <img src="https://i.imgur.com/8Yq7ZQk.png" alt="CSI Logo">
+        <h1>CSI Perícia</h1>
+    </div>
 
-<div id="resultado"></div>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCdr899qbxpWUeRzdiTPO9rhnjdLMU8dcU",
-    authDomain: "csi-gemlab.firebaseapp.com",
-    projectId: "csi-gemlab"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  async function buscarLaudo() {
-    const token = document.getElementById("campoToken").value.trim();
-    const ref = db.collection("laudos").where("token", "==", token);
-    const resultado = await ref.get();
-
-    if (resultado.empty) {
-      document.getElementById("resultado").innerHTML = "Nenhum laudo encontrado.";
-      return;
-    }
-
-    resultado.forEach(doc => {
-      const d = doc.data();
-
-      /* Redireciona para a página da gema (pasta 1) */
-      window.location.href = d.link_pasta_1;
-    });
-  }
-</script>
+    <div class="container">
+        <label for="token">Insira o token do laudo:</label><br><br>
+        <input id="token" type="text" placeholder="Ex: AB12345">
+        <button onclick="consultarLaudo()">Consultar</button>
+    </div>
 
 </body>
 </html>
