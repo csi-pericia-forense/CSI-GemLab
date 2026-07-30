@@ -56,6 +56,7 @@ h1, h2 {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
 }
+
 .button {
     display: block;
     width: 100%;
@@ -108,82 +109,37 @@ h1, h2 {
     <!-- MOTOR 01 -->
     <div class="card">
         <h2>Exame 01 — Motor 01</h2>
-        <div class="json-box">
-            <script>
-                fetch("relatorio_motor_01.json")
-                    .then(r => r.text())
-                    .then(t => document.write(t));
-            </script>
-        </div>
+        <div id="motor01" class="json-box">Carregando...</div>
     </div>
 
     <!-- MOTOR 02 -->
     <div class="card">
         <h2>Exame 02 — Motor 02</h2>
-        <div class="json-box">
-            <script>
-                fetch("relatorio_motor_02.json")
-                    .then(r => r.text())
-                    .then(t => document.write(t));
-            </script>
-        </div>
+        <div id="motor02" class="json-box">Carregando...</div>
     </div>
 
     <!-- MOTOR 03 -->
     <div class="card">
         <h2>Exame 03 — Motor 03</h2>
-        <div class="json-box">
-            <script>
-                fetch("relatorio_motor_03.json")
-                    .then(r => r.text())
-                    .then(t => document.write(t));
-            </script>
-        </div>
+        <div id="motor03" class="json-box">Carregando...</div>
     </div>
 
     <!-- MOTOR 04 (IMAGENS) -->
     <div class="card">
         <h2>Exame 04 — Motor 04 (Imagens)</h2>
-        <div class="image-grid">
-            <script>
-                const imgs4 = [
-                    "relatorio_motor_04/imagem_01 - Copia (2).jpg",
-                    "relatorio_motor_04/imagem_01 - Copia (3).jpg",
-                    "relatorio_motor_04/imagem_01 - Copia.jpg"
-                ];
-                imgs4.forEach(src => document.write(`<img src="${src}">`));
-            </script>
-        </div>
+        <div id="motor04" class="image-grid"></div>
     </div>
 
     <!-- MOTOR 05 (IMAGENS) -->
     <div class="card">
         <h2>Exame 05 — Motor 05 (Imagens)</h2>
-        <div class="image-grid">
-            <script>
-                const imgs5 = [
-                    "relatorio_motor_05/imagem_01 - Copia (2).jpg",
-                    "relatorio_motor_05/imagem_01 - Copia (3).jpg",
-                    "relatorio_motor_05/imagem_01 - Copia.jpg"
-                ];
-                imgs5.forEach(src => document.write(`<img src="${src}">`));
-            </script>
-        </div>
+        <div id="motor05" class="image-grid"></div>
     </div>
 
     <!-- MOTOR 06 (IMAGENS) -->
     <div class="card">
         <h2>Exame 06 — Motor 06 (Imagens)</h2>
-        <div class="image-grid">
-            <script>
-                const imgs6 = [
-                    "relatorio_motor_06/imagem_01 - Copia (2).jpg",
-                    "relatorio_motor_06/imagem_01 - Copia (3).jpg",
-                    "relatorio_motor_06/imagem_01 - Copia.jpg"
-                ];
-                imgs6.forEach(src => document.write(`<img src="${src}">`));
-            </script>
-        </div>
+        <div id="motor06" class="image-grid"></div>
     </div>
 
     <button class="button" onclick="window.location.href='../pagina_03/pagina_03.html'">
@@ -191,6 +147,44 @@ h1, h2 {
     </button>
 
 </div>
+
+<script>
+// -------- JSON LOADERS --------
+async function loadJSON(id, file) {
+    try {
+        const r = await fetch(file);
+        const t = await r.text();
+        document.getElementById(id).innerText = t;
+    } catch {
+        document.getElementById(id).innerText = "Erro ao carregar o relatório.";
+    }
+}
+
+loadJSON("motor01", "relatorio_motor_01.json");
+loadJSON("motor02", "relatorio_motor_02.json");
+loadJSON("motor03", "relatorio_motor_03.json");
+
+// -------- IMAGE LOADERS --------
+function loadImages(id, folder) {
+    const container = document.getElementById(id);
+
+    const images = [
+        "imagem_01.jpg",
+        "imagem_02.jpg",
+        "imagem_03.jpg"
+    ];
+
+    images.forEach(img => {
+        const el = document.createElement("img");
+        el.src = `${folder}/${img}`;
+        container.appendChild(el);
+    });
+}
+
+loadImages("motor04", "relatorio_motor_04");
+loadImages("motor05", "relatorio_motor_05");
+loadImages("motor06", "relatorio_motor_06");
+</script>
 
 </body>
 </html>
