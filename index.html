@@ -10,7 +10,6 @@
 
     <style>
         :root {
-            /* Paleta de Cores Neon */
             --bg-dark: #05070c;
             --accent-yellow: #ffe600;
             --accent-yellow-glow: rgba(255, 230, 0, 0.5);
@@ -27,41 +26,42 @@
             padding: 0;
         }
 
-        body {
+        html, body {
             background-color: var(--bg-dark);
-            /* Fundo com degradê e partículas sutis */
             background-image: 
                 radial-gradient(circle at 50% 40%, rgba(10, 25, 45, 0.8) 0%, var(--bg-dark) 70%),
                 linear-gradient(135deg, rgba(10, 15, 30, 0.3) 0%, transparent 100%);
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
-            height: 100vh;
+            min-height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto; /* PERMITE A ROLAGEM VERTICAL */
+        }
+
+        body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            /* Cursor personalizado */
-            cursor: crosshair;
+            padding: 40px 20px;
         }
 
-        /* Partículas de fundo decorativas */
         body::before {
             content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-image: radial-gradient(var(--glass-border) 1px, transparent 1px);
             background-size: 50px 50px;
-            opacity: 0.5;
+            opacity: 0.3;
             z-index: -1;
         }
 
-        /* Container Principal (Card) */
         .wrapper {
-            width: 90%;
+            width: 100%;
             max-width: 480px;
             display: flex;
             flex-direction: column;
@@ -82,7 +82,6 @@
             position: relative;
         }
 
-        /* Linha de escaneamento de borda */
         .card::after {
             content: '';
             position: absolute;
@@ -94,9 +93,9 @@
             mask-composite: exclude;
             animation: borderRotate 6s linear infinite;
             opacity: 0.7;
+            pointer-events: none;
         }
 
-        /* Logo / Escudo CSI (Embutido em SVG) */
         .logo-box {
             display: flex;
             align-items: center;
@@ -108,9 +107,7 @@
         .csi-shield {
             width: 50px;
             height: 50px;
-            /* Cor do SVG inicial (azul) */
             fill: var(--accent-blue);
-            /* Brilho neon no logo */
             filter: drop-shadow(0 0 8px var(--accent-blue-glow));
             animation: pulseBlue 3s infinite alternate;
         }
@@ -125,7 +122,6 @@
             text-transform: uppercase;
         }
 
-        /* Título da ação */
         .card label {
             font-family: 'Rajdhani', sans-serif;
             font-size: 16px;
@@ -138,7 +134,6 @@
             text-transform: uppercase;
         }
 
-        /* Área de Input e Botão */
         .input-action-group {
             display: flex;
             gap: 15px;
@@ -170,8 +165,7 @@
         }
 
         button {
-            padding: 16px 32px;
-            /* Degradê inicial do botão */
+            padding: 16px 28px;
             background: linear-gradient(135deg, #0077b6, #00b4d8);
             color: #fff;
             border: 1px solid var(--accent-blue);
@@ -186,30 +180,24 @@
             box-shadow: 0 0 15px var(--accent-blue-glow);
         }
 
-        /* Efeito Hover no botão (Muda para Amarelo Neon) */
         button:hover {
             background: var(--accent-yellow);
-            color: #000; /* Texto preto no amarelo */
+            color: #000;
             border-color: var(--accent-yellow);
             box-shadow: 0 0 30px var(--accent-yellow-glow);
             transform: translateY(-2px);
-            animation: pulseYellow 0.5s infinite alternate;
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: 0 0 10px var(--accent-yellow-glow);
         }
 
-        /* Mensagens de Status Estilizadas */
         #mensagem-status {
             margin-top: 25px;
             font-size: 14px;
             font-weight: 500;
             min-height: 25px;
             letter-spacing: 0.5px;
-            transition: opacity 0.4s ease;
-            padding: 0 10px;
         }
 
         .status-erro {
@@ -227,7 +215,6 @@
             text-shadow: 0 0 8px var(--accent-yellow-glow);
         }
 
-        /* Animações */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
@@ -238,30 +225,23 @@
             to { filter: drop-shadow(0 0 15px var(--accent-blue-glow)); fill: #66faff; }
         }
 
-        @keyframes pulseYellow {
-            from { box-shadow: 0 0 15px var(--accent-yellow-glow); }
-            to { box-shadow: 0 0 30px var(--accent-yellow-glow); }
-        }
-
         @keyframes borderRotate {
             from { background-position: 0% 0%; }
             to { background-position: 400% 0%; }
         }
     </style>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
     <script>
-        // CONFIGURAÇÃO DO FIREBASE (Substitua pelos seus dados reais)
         const firebaseConfig = {
             apiKey: "SUA_API_KEY",
             authDomain: "SEU_DOMINIO.firebaseapp.com",
             projectId: "SEU_PROJECT_ID",
             storageBucket: "SEU_BUCKET.appspot.com",
-            messagingSenderId: "SEU_SENDER_ID",
-            appId: "SEU_APP_ID"
+            messagingSenderId: "SUA_SENDER_ID",
+            appId: "SUA_APP_ID"
         };
 
         const app = firebase.initializeApp(firebaseConfig);
@@ -274,49 +254,36 @@
 
             if (token === "") {
                 statusDiv.className = "status-erro";
-                statusDiv.innerText = "⚠️ ERRO CRÍTICO: Token de consulta não pode estar vazio.";
+                statusDiv.innerText = "⚠️ ERRO: Token não pode estar vazio.";
                 tokenInput.focus();
                 return;
             }
 
-            // Feedback de processamento (em amarelo neon)
             statusDiv.className = "status-info";
-            statusDiv.innerText = "📡 TRANSMISSÃO INICIADA: Localizando registro criptografado...";
-            statusDiv.style.opacity = "1";
+            statusDiv.innerText = "📡 Localizando registro criptografado...";
 
             db.collection("laudos").doc(token).get().then((doc) => {
                 if (doc.exists) {
-                    // Feedback de sucesso (em azul neon)
                     statusDiv.className = "status-sucesso";
-                    statusDiv.innerText = "✅ ACESSO AUTORIZADO: Laudo validado. Redirecionando sistema...";
-                    statusDiv.style.opacity = "1";
-                    
+                    statusDiv.innerText = "✅ Laudo validado. Redirecionando...";
                     setTimeout(() => {
                         window.location.href = doc.data().url;
-                    }, 800); // Pequeno atraso para ler a msg de sucesso
+                    }, 800);
                 } else {
-                    // Feedback de erro (em vermelho)
                     statusDiv.className = "status-erro";
-                    statusDiv.innerText = "❌ FALHA NA AUTENTICAÇÃO: Token não encontrado na base de dados.";
-                    statusDiv.style.opacity = "1";
+                    statusDiv.innerText = "❌ Token não encontrado na base de dados.";
                 }
             }).catch((error) => {
                 statusDiv.className = "status-erro";
-                statusDiv.innerText = "⚠️ FALHA DE SISTEMA: Erro de conexão com o servidor central.";
-                statusDiv.style.opacity = "1";
-                console.error("Erro Firebase:", error);
+                statusDiv.innerText = "⚠️ Erro de conexão com o servidor.";
             });
         }
 
-        // Adicionar funcionalidade de "Enter" no input
         document.addEventListener("DOMContentLoaded", () => {
             const inputField = document.getElementById("token");
             inputField.addEventListener("keypress", (event) => {
-                if (event.key === "Enter") {
-                    consultarLaudo();
-                }
+                if (event.key === "Enter") consultarLaudo();
             });
-            // Focar automaticamente no input ao carregar a página
             inputField.focus();
         });
     </script>
@@ -325,7 +292,6 @@
 
     <div class="wrapper">
         <div class="card">
-            <!-- Logo / Escudo CSI (Vetorial SVG Embutido - Não quebra!) -->
             <div class="logo-box">
                 <svg class="csi-shield" viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
@@ -333,7 +299,15 @@
                 <h1 class="brand-title">CSI GemLab</h1>
             </div>
 
-            <label for="token">INSERIR TOKEN DE CONSULTA FORENSE</label>
+            <label for="token">Inserir Token de Consulta</label>
             
             <div class="input-action-group">
-                <input id="token" type="text" placeholder="Ex: AB123456
+                <input id="token" type="text" placeholder="Ex: AB12345" autocomplete="off">
+                <button onclick="consultarLaudo()">Consultar</button>
+            </div>
+            <div id="mensagem-status"></div>
+        </div>
+    </div>
+
+</body>
+</html>
