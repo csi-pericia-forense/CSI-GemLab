@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CSI GemLab — Laudo Patrimonial</title>
+
+<!-- Fonte oficial CSI: League Spartan -->
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    background: #05070c;
+    font-family: 'League Spartan', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+h1, h2 {
+    text-align: center;
+    text-shadow: 0 0 10px #00f3ff;
+    font-weight: 700;
+}
+
+.card {
+    background: rgba(10, 15, 30, 0.65);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 25px;
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+}
+
+img.certificado {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    background: #00b4d8;
+    color: #000;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 15px #00f3ff;
+    cursor: pointer;
+    border: none;
+    font-size: 18px;
+}
+
+.button:hover {
+    background: #ffe600;
+    box-shadow: 0 0 20px #ffe600;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #00f3ff;
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    font-size: 18px;
+    font-family: 'League Spartan', sans-serif;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>CSI GemLab</h1>
+    <h2>Consulta Pública — Laudo Patrimonial</h2>
+
+    <div class="card">
+        <h2>Certificado — Frente</h2>
+        <img class="certificado" src="../certificado/certificado_frente.jpg" alt="Certificado Frente">
+
+        <h2>Certificado — Verso</h2>
+        <img class="certificado" src="../certificado/certificado_verso.jpg" alt="Certificado Verso">
+    </div>
+
+    <div class="card">
+        <h2>Dados Básicos da Gema</h2>
+
+        <p><strong>Tipo:</strong> Diamante</p>
+        <p><strong>Cor:</strong> Transparente</p>
+        <p><strong>Peso:</strong> 1.25 ct</p>
+        <p><strong>Tamanho:</strong> 6.5 mm</p>
+        <p><strong>Lapidação:</strong> Brilhante</p>
+        <p><strong>Transparência:</strong> Alta</p>
+        <p><strong>Código do Laudo:</strong> CSI-DATA-HHMMSS-TESTE</p>
+        <p><strong>Número do Certificado:</strong> 22052025PG</p>
+        <p><strong>Data da Emissão:</strong> 25/06/2025</p>
+    </div>
+
+    <div class="card">
+        <h2>Senha do Certificado</h2>
+        <p>Insira a senha impressa no certificado físico para acessar os detalhes técnicos.</p>
+
+        <input id="senha" class="input-field" type="password" placeholder="Digite a senha do certificado">
+
+        <button class="button" onclick="validarSenha()">Acessar Detalhes Técnicos</button>
+    </div>
+
+</div>
+
+<script>
+async function validarSenha() {
+    const senhaDigitada = document.getElementById("senha").value.trim();
+
+    if (!senhaDigitada) {
+        alert("SENHA INCORRETA amigo, ok?");
+        return;
+    }
+
+    try {
+        const resposta = await fetch("../senha/senha.csi");
+        const senhaCorreta = (await resposta.text()).trim();
+
+        if (senhaDigitada === senhaCorreta) {
+            window.location.href = "../pagina_02/pagina_02.html";
+        } else {
+            alert("SENHA INCORRETA amigo, ok?");
