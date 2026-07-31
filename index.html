@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- REMOVIDO: Firebase (estava quebrando tudo) -->
+    <!-- REMOVIDO: FIREBASE -->
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,4 +54,136 @@
     <!-- SCRIPT FINAL FUNCIONANDO -->
     <script>
     async function buscarLaudo() {
-        const tokenDigitado = document.getElementById("token-gem").value.trim
+        const tokenDigitado = document.getElementById("token-gem").value.trim();
+
+        if (!tokenDigitado) {
+            document.getElementById("mensagem-status").innerHTML = "Digite o token.";
+            return;
+        }
+
+        document.getElementById("mensagem-status").innerHTML = "Acessando Base de Dados Forense...";
+
+        let categoria = "";
+        if (tokenDigitado.endsWith("-P")) categoria = "patrimonial";
+        else if (tokenDigitado.endsWith("-V")) categoria = "viabilidade";
+        else {
+            document.getElementById("mensagem-status").innerHTML = "Token inválido (faltando -P ou -V).";
+            return;
+        }
+
+        const pastas = ["01_CSI-000-P", "01_CSI-000-V"];
+
+        for (const pasta of pastas) {
+
+            if (tokenDigitado.endsWith("-P") && !pasta.endsWith("-P")) continue;
+            if (tokenDigitado.endsWith("-V") && !pasta.endsWith("-V")) continue;
+
+            const caminhoToken = `${categoria}/${pasta}/token/token.json`;
+
+            try {
+                const resposta = await fetch(caminhoToken);
+
+                if (!resposta.ok) continue;
+
+                const dados = await resposta.json();
+
+                if (dados.token === tokenDigitado) {
+                    const destino = `${categoria}/${pasta}/pagina_01/pagina_01.html?token=${encodeURIComponent(tokenDigitado)}`;
+                    window.location.href = destino;
+                    return;
+                }
+
+            } catch (e) {
+                console.log("Erro ao ler token:", e);
+            }
+        }
+
+        document.getElementById("mensagem-status").innerHTML = "Nenhum laudo encontrado.";
+    }
+    </script>
+
+</head>
+<body>
+
+<div class="csi-hologram-dashboard-transparent">
+    <div class="csi-container">
+        
+        <div class="hologram-header">
+            <div class="hologram-logo">
+                <i class="fa-solid fa-gem pulse-blue"></i>
+                <span>CSI GEMLAB &bull; PERÍCIA GEMOLÓGICA FORENSE</span>
+            </div>
+            <div class="hologram-line"></div>
+        </div>
+
+        <div class="hologram-main-grid">
+            
+            <div class="hologram-content">
+                <div class="hologram-badge">GLOBAL_GEM_SECURITY_V1.0</div>
+                <h2 class="hologram-title">Blindagem Patrimonial & <br><span class="txt-cyan">Certificação Gemológica</span></h2>
+                <p class="hologram-desc">Perícia técnica avançada em pedras preciosas brutas e lapidadas com fins probatórios, avaliação patrimonial de alto rigor e emissão de laudos com validade jurídica internacional.</p>
+                
+                <div class="consultation-box">
+                    <label><i class="fa-solid fa-shield-halved"></i> Rastrear Certificado / Laudo Oficial</label>
+                    <div class="input-action-group">
+                        <input id="token-gem" type="text" placeholder="Ex: CSI-DATA-HHMMSS-TESTE-P" autocomplete="off">
+                        <button onclick="buscarLaudo()" class="btn-consultar">Consultar</button>
+                    </div>
+                    <div id="mensagem-status"></div>
+                </div>
+            </div>
+
+            <div class="hologram-cards-container">
+                <div class="hud-card">
+                    <div class="hud-header">ANÁLISE_BRUTA</div>
+                    <div class="hud-body">
+                        <i class="fa-solid fa-cube"></i>
+                        <h4>Pedras Brutas</h4>
+                        <p>Autoria e origem mineral</p>
+                    </div>
+                </div>
+
+                <div class="hud-card">
+                    <div class="hud-header">AVALIAÇÃO_PATRIMONIAL</div>
+                    <div class="hud-body">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <h4>Blindagem Jurídica</h4>
+                        <p>Valor de mercado e laudo pericial</p>
+                    </div>
+                </div>
+
+                <div class="hud-card card-link-highlight">
+                    <div class="hud-header">INTERNATIONAL_STANDARDS</div>
+                    <div class="hud-body">
+                        <i class="fa-solid fa-certificate"></i>
+                        <h4>Certificado Gemológico</h4>
+                        <p>
+                            Validade global e forense.<br>
+                            <span class="fake-link">Acessar Padrões</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="hud-card">
+                    <div class="hud-header">DILIGÊNCIA_GLOBAL</div>
+                    <div class="hud-body">
+                        <i class="fa-solid fa-globe"></i>
+                        <h4>Atuação Internacional</h4>
+                        <p>Brasil e Exterior</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hologram-bottom-bar">
+            <span>[ ENCRYPTION: SHA-256 SECURE ]</span>
+            <span class="pulse-text">● LIVE DATABASE TRACKING ACTIVE</span>
+            <span>[ COMPLIANCE: FORENSIC STANDARD ]</span>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
