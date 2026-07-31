@@ -58,19 +58,25 @@ async function buscarLaudo() {
         return;
     }
 
-    const pastas = ["01_CSI-000-P", "01_CSI-000-V"];
+    // LISTA DE PASTAS QUE EXISTEM
+    const respostaLista = await fetch(`${categoria}/`);
+    const textoLista = await respostaLista.text();
 
-    for (const pasta of pastas) {
-        if (tokenDigitado.endsWith("-P") && !pasta.endsWith("-P")) continue;
-        if (tokenDigitado.endsWith("-V") && !pasta.endsWith("-V")) continue;
+    // CAPTURA TODAS AS PASTAS
+    const regexPastas = /href="([^"]+)\/"/g;
+    let match;
 
-        const caminhoToken = `${categoria}/${pasta}/token/token.json`;
+    while ((match = regexPastas.exec(textoLista)) !== null) {
+        const pasta = match[1];
+
+        // CAMINHO CORRETO DO TOKEN.JSON
+        const caminhoToken = `${categoria}/${pasta}/token.json`;
 
         try {
-            const resposta = await fetch(caminhoToken);
-            if (!resposta.ok) continue;
+            const respostaToken = await fetch(caminhoToken);
+            if (!respostaToken.ok) continue;
 
-            const dados = await resposta.json();
+            const dados = await respostaToken.json();
 
             if (dados.token === tokenDigitado) {
                 const destino = `${categoria}/${pasta}/pagina_01/pagina_01.html?token=${encodeURIComponent(tokenDigitado)}`;
