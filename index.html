@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSI GemLab - Sistema de Laudos</title>
+    <title>CSI GemLab - Laboratório de Perícia e Certificação Gemológica</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -11,17 +12,31 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #000; font-family: 'Inter', sans-serif; color: #fff; width: 100%; }
-        .csi-container { max-width: 1200px; margin: 0 auto; padding: 30px; }
-
-        .header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: #00d4ff; }
-
-        .consult-box { background: rgba(8,12,24,0.75); padding: 20px; border-radius: 8px; border: 1px solid rgba(0,212,255,0.3); }
-        .consult-box label { font-family: 'Orbitron', sans-serif; font-size: 12px; color: #ffcc00; margin-bottom: 10px; display: block; }
-        .consult-box input { width: 100%; padding: 12px; background: #020617; border: 1px solid rgba(0,212,255,0.3); border-radius: 6px; color: #fff; margin-bottom: 10px; }
-        .consult-box button { padding: 12px 20px; background: #ffcc00; color: #000; border: none; border-radius: 6px; font-family: 'Orbitron', sans-serif; font-weight: 900; cursor: pointer; }
-
-        #mensagem-status { margin-top: 10px; font-size: 12px; font-family: 'Orbitron', sans-serif; }
+        .csi-hologram-dashboard-transparent { padding: 30px 20px; width: 100%; }
+        .csi-container { max-width: 1200px; margin: 0 auto; }
+        .hologram-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .hologram-logo { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 15px; color: #00d4ff; display: flex; align-items: center; gap: 8px; }
+        .hologram-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.4), transparent); }
+        .pulse-blue { animation: logo-pulse 2s infinite; }
+        @keyframes logo-pulse { 0%,100%{opacity:1;}50%{opacity:0.3;} }
+        .hologram-main-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
+        .hologram-badge { background: rgba(0,212,255,0.1); color:#00d4ff; padding:4px 12px; border-radius:4px; font-size:10px; font-weight:800; margin-bottom:15px; border:1px solid rgba(0,212,255,0.2); font-family:'Orbitron',sans-serif; }
+        .hologram-title { font-family:'Orbitron',sans-serif; font-size:38px; font-weight:900; line-height:1.1; margin-bottom:15px; }
+        .txt-cyan { color:#00d4ff; }
+        .hologram-desc { color:rgba(255,255,255,0.75); font-size:15px; line-height:1.6; margin-bottom:25px; }
+        .consultation-box { background:rgba(8,12,24,0.75); border:1px solid rgba(0,212,255,0.3); border-radius:8px; padding:20px; }
+        .consultation-box label { font-family:'Orbitron',sans-serif; font-size:11px; font-weight:600; letter-spacing:1.5px; color:#ffcc00; margin-bottom:10px; display:block; }
+        .input-action-group { display:flex; gap:10px; width:100%; }
+        .consultation-box input { flex:1; padding:12px 14px; background:#020617; border:1px solid rgba(0,212,255,0.3); border-radius:6px; font-size:14px; color:#fff; }
+        .btn-consultar { padding:12px 20px; background:#ffcc00; color:#000; border:1px solid #ffcc00; border-radius:6px; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:12px; font-weight:900; }
+        #mensagem-status { margin-top:10px; font-size:12px; font-weight:600; min-height:18px; font-family:'Orbitron',sans-serif; }
+        .hologram-cards-container { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+        .hud-card { background:rgba(255,255,255,0.02); border:1px solid rgba(0,212,255,0.15); padding:18px; border-radius:6px; }
+        .hud-header { font-size:8px; color:#00d4ff; opacity:0.8; margin-bottom:10px; font-family:'Orbitron',sans-serif; }
+        .hud-body i { font-size:22px; color:#00d4ff; margin-bottom:10px; }
+        .hud-body h4 { font-size:13px; font-weight:800; margin-bottom:4px; color:#fff; font-family:'Orbitron',sans-serif; }
+        .hud-body p { font-size:11px; color:rgba(255,255,255,0.6); margin:0; }
+        .hologram-bottom-bar { display:flex; justify-content:space-between; margin-top:35px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1); font-family:'Orbitron',sans-serif; font-size:9px; color:rgba(255,255,255,0.35); }
     </style>
 
     <script>
@@ -33,43 +48,38 @@ async function buscarLaudo() {
         return;
     }
 
-    document.getElementById("mensagem-status").innerHTML = "Procurando token nas pastas...";
+    document.getElementById("mensagem-status").innerHTML = "Acessando Base de Dados Forense...";
 
-    const diretoriosRaiz = ["patrimonial", "viabilidade"];
+    let categoria = "";
+    if (tokenDigitado.endsWith("-P")) categoria = "patrimonial";
+    else if (tokenDigitado.endsWith("-V")) categoria = "viabilidade";
+    else {
+        document.getElementById("mensagem-status").innerHTML = "Token inválido (faltando -P ou -V).";
+        return;
+    }
 
-    for (const raiz of diretoriosRaiz) {
+    const pastas = ["01_CSI-000-P", "01_CSI-000-V"];
+
+    for (const pasta of pastas) {
+        if (tokenDigitado.endsWith("-P") && !pasta.endsWith("-P")) continue;
+        if (tokenDigitado.endsWith("-V") && !pasta.endsWith("-V")) continue;
+
+        const caminhoToken = `${categoria}/${pasta}/token/token.json`;
+
         try {
-            const respostaLista = await fetch(`${raiz}/`);
-            const textoLista = await respostaLista.text();
+            const resposta = await fetch(caminhoToken);
+            if (!resposta.ok) continue;
 
-            const regexPastas = /href="([^"]+)\/"/g;
-            let match;
+            const dados = await resposta.json();
 
-            while ((match = regexPastas.exec(textoLista)) !== null) {
-                const pasta = match[1];
-
-                const caminhoToken = `${raiz}/${pasta}/token.json`;
-
-                try {
-                    const respostaToken = await fetch(caminhoToken);
-
-                    if (!respostaToken.ok) continue;
-
-                    const dados = await respostaToken.json();
-
-                    if (dados.token === tokenDigitado) {
-                        const destino = `${raiz}/${pasta}/pagina_01/pagina_01.html?token=${encodeURIComponent(tokenDigitado)}`;
-                        window.location.href = destino;
-                        return;
-                    }
-
-                } catch (e) {
-                    console.log("Erro ao ler token.json:", e);
-                }
+            if (dados.token === tokenDigitado) {
+                const destino = `${categoria}/${pasta}/pagina_01/pagina_01.html?token=${encodeURIComponent(tokenDigitado)}`;
+                window.location.href = destino;
+                return;
             }
 
         } catch (e) {
-            console.log("Erro ao listar pastas:", e);
+            console.log("Erro ao ler token:", e);
         }
     }
 
@@ -80,19 +90,72 @@ async function buscarLaudo() {
     </head>
 <body>
 
-<div class="csi-container">
+<div class="csi-hologram-dashboard-transparent">
+    <div class="csi-container">
+        
+        <div class="hologram-header">
+            <div class="hologram-logo">
+                <i class="fa-solid fa-gem pulse-blue"></i>
+                <span>CSI GEMLAB • PERÍCIA GEMOLÓGICA FORENSE</span>
+            </div>
+            <div class="hologram-line"></div>
+        </div>
 
-    <div class="header">
-        <div class="logo"><i class="fa-solid fa-gem"></i> CSI GEMLAB</div>
+        <div class="hologram-main-grid">
+            
+            <div class="hologram-content">
+                <div class="hologram-badge">GLOBAL_GEM_SECURITY_V1.0</div>
+                <h2 class="hologram-title">Blindagem Patrimonial & <br><span class="txt-cyan">Certificação Gemológica</span></h2>
+                <p class="hologram-desc">Perícia técnica avançada em pedras preciosas brutas e lapidadas com fins probatórios.</p>
+                
+                <div class="consultation-box">
+                    <label><i class="fa-solid fa-shield-halved"></i> Rastrear Certificado / Laudo Oficial</label>
+                    <div class="input-action-group">
+                        <input id="token-gem" type="text" placeholder="Ex: CSI-DATA-HHMMSS-TESTE-P" autocomplete="off">
+                        <button onclick="buscarLaudo()" class="btn-consultar">Consultar</button>
+                    </div>
+                    <div id="mensagem-status"></div>
+                </div>
+            </div>
+
+            <div class="hologram-cards-container">
+                <div class="hud-card">
+                    <div class="hud-header">ANÁLISE_BRUTA</div>
+                    <div class="hud-body">
+                        <i class="fa-solid fa-cube"></i>
+                        <h4>Pedras Brutas</h4>
+                        <p>Autoria e origem mineral</p>
+                    </div>
+                </div>
+
+                <div class="hud-card">
+                    <div class="hud-header">AVALIAÇÃO_PATRIMONIAL</div>
+                    <div class="hud-body">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <h4>Blindagem Jurídica</h4>
+                        <p>Valor de mercado e laudo pericial</p>
+                    </div>
+                </div>
+
+                <div class="hud-card">
+                    <div class="hud-header">DILIGÊNCIA_GLOBAL</div>
+                    <div class="hud-body">
+                        <i class="fa-solid fa-globe"></i>
+                        <h4>Atuação Internacional</h4>
+                        <p>Brasil e Exterior</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hologram-bottom-bar">
+            <span>[ ENCRYPTION: SHA-256 SECURE ]</span>
+            <span class="pulse-text">● LIVE DATABASE TRACKING ACTIVE</span>
+            <span>[ COMPLIANCE: FORENSIC STANDARD ]</span>
+        </div>
+
     </div>
-
-    <div class="consult-box">
-        <label>Rastrear Laudo Oficial</label>
-        <input id="token-gem" type="text" placeholder="Digite o token do laudo">
-        <button onclick="buscarLaudo()">Consultar</button>
-        <div id="mensagem-status"></div>
-    </div>
-
 </div>
 
 </body>
