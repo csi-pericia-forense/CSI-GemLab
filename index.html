@@ -1,123 +1,224 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>CSI GemLab – Consulta</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSI GemLab - Consulta de Laudos Forenses</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
-      font-family: Arial, sans-serif;
-      color: #fff;
-    }
-
-    .banner {
-      width: 100%;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      border-bottom: 2px solid #00aaff;
-      box-shadow: 0 0 6px #00aaff;
-      background: transparent;
-    }
-
-    .banner label {
-      font-size: 16px;
-      color: #ffffff;
-      font-weight: bold;
-      text-shadow: 0 0 6px #00aaff;
-    }
-
-    .banner input {
-      padding: 8px;
-      font-size: 15px;
-      border-radius: 5px;
-      border: 2px solid #00aaff;
-      background: transparent;
-      color: #fff;
-      width: 220px;
-      outline: none;
-      box-shadow: 0 0 6px #0077aa;
-    }
-
-    .banner button {
-      padding: 8px 16px;
-      font-size: 15px;
-      background: #00aaff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #000;
-      font-weight: bold;
-      box-shadow: 0 0 10px #00aaff;
-      transition: 0.2s;
-    }
-
-    .banner button:hover {
-      background: #33cfff;
-      box-shadow: 0 0 14px #33cfff;
-    }
-
-    #resultado {
-      margin-top: 15px;
-      padding: 10px;
-      font-size: 15px;
-      color: #fff;
-      background: transparent;
-      border-left: 3px solid #00aaff;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="banner">
-  <label>Insira o token do laudo:</label>
-  <input id="campoToken" placeholder="Ex: CSI-DATA-HHMMSS-TESTE">
-  <button onclick="buscarLaudo()">Consultar</button>
-</div>
-
-<div id="resultado"></div>
-
-<script>
-async function buscarLaudo() {
-    const tokenDigitado = document.getElementById("campoToken").value.trim();
-
-    if (!tokenDigitado) {
-        document.getElementById("resultado").innerHTML = "Digite o token.";
-        return;
-    }
-
-    document.getElementById("resultado").innerHTML = "Acessando Base de Dados Forense...";
-
-    const categorias = ["patrimonial", "viabilidade"];
-    const pastas = ["01_CSI-000", "01_CSI-000-V"];
-
-    for (const categoria of categorias) {
-        for (const pasta of pastas) {
-            try {
-                const caminho = `/CSI-GemLab/${categoria}/${pasta}/token/token.csi`;
-
-                const resposta = await fetch(caminho);
-
-                if (!resposta.ok) continue;
-
-                const tokenArquivo = (await resposta.text()).trim();
-
-                if (tokenArquivo === tokenDigitado) {
-                    window.location.href = `/CSI-GemLab/${categoria}/${pasta}/pagina_01/pagina_01.html?token=${tokenDigitado}`;
-                    return;
-                }
-            } catch (e) {}
+    <style>
+        :root {
+            --accent-yellow: #ffe600;
+            --accent-yellow-glow: rgba(255, 230, 0, 0.4);
+            --accent-blue: #00f3ff;
+            --accent-blue-glow: rgba(0, 243, 255, 0.3);
+            --text-main: #ffffff;
         }
-    }
 
-    document.getElementById("resultado").innerHTML = "Nenhum laudo encontrado.";
-}
-</script>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
+        /* Fundo 100% transparente */
+        html, body {
+            background: transparent !important;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 2px;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Sem fundo, sem borda, sem caixa. Apenas o conteúdo limpo */
+        .card {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 5px 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .csi-shield {
+            width: 22px;
+            height: 22px;
+            fill: var(--accent-blue);
+            filter: drop-shadow(0 0 5px var(--accent-blue-glow));
+        }
+
+        .brand-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text-main);
+            text-shadow: 0 0 8px var(--accent-blue-glow);
+            text-transform: uppercase;
+        }
+
+        .card label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--accent-yellow);
+            display: block;
+            margin-bottom: 4px;
+            text-shadow: 0 0 6px var(--accent-yellow-glow);
+            text-transform: uppercase;
+        }
+
+        .input-action-group {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+
+        input {
+            flex: 1;
+            padding: 7px 10px;
+            background: rgba(2, 6, 23, 0.85);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 5px;
+            font-size: 13px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue-glow);
+        }
+
+        button {
+            padding: 7px 14px;
+            background: linear-gradient(135deg, #0077b6, #00b4d8);
+            color: #fff;
+            border: 1px solid var(--accent-blue);
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: var(--accent-yellow);
+            color: #000;
+            border-color: var(--accent-yellow);
+            box-shadow: 0 0 15px var(--accent-yellow-glow);
+        }
+
+        #mensagem-status {
+            margin-top: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            min-height: 14px;
+        }
+
+        .status-erro { color: #ff4444; }
+        .status-sucesso { color: var(--accent-blue); }
+        .status-info { color: var(--accent-yellow); }
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_DOMINIO.firebaseapp.com",
+            projectId: "SEU_PROJECT_ID",
+            storageBucket: "SEU_BUCKET.appspot.com",
+            messagingSenderId: "SUA_SENDER_ID",
+            appId: "SUA_APP_ID"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function consultarLaudo() {
+            const tokenInput = document.getElementById("token");
+            const statusDiv = document.getElementById("mensagem-status");
+            const token = tokenInput.value.trim();
+
+            if (token === "") {
+                statusDiv.className = "status-erro";
+                statusDiv.innerText = "⚠️ Token vazio.";
+                return;
+            }
+
+            statusDiv.className = "status-info";
+            statusDiv.innerText = "📡 Localizando...";
+
+            db.collection("laudos").doc(token).get().then((doc) => {
+                if (doc.exists) {
+                    statusDiv.className = "status-sucesso";
+                    statusDiv.innerText = "✅ Redirecionando...";
+                    setTimeout(() => { window.location.href = doc.data().url; }, 800);
+                } else {
+                    statusDiv.className = "status-erro";
+                    statusDiv.innerText = "❌ Token não encontrado.";
+                }
+            }).catch(() => {
+                statusDiv.className = "status-erro";
+                statusDiv.innerText = "⚠️ Erro de conexão.";
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const inputField = document.getElementById("token");
+            inputField.addEventListener("keypress", (e) => { if (e.key === "Enter") consultarLaudo(); });
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="card">
+            <div class="logo-box">
+                <svg class="csi-shield" viewBox="0 0 24 24">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                </svg>
+                <h1 class="brand-title">CSI GemLab</h1>
+            </div>
+            <label for="token">Inserir Token de Consulta</label>
+            <div class="input-action-group">
+                <input id="token" type="text" placeholder="Ex: AB12345" autocomplete="off">
+                <button onclick="consultarLaudo()">Consultar</button>
+            </div>
+            <div id="mensagem-status"></div>
+        </div>
+    </div>
 </body>
 </html>
