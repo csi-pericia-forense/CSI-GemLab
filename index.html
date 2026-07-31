@@ -1,4 +1,30 @@
-<script>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSI GemLab - Sistema de Laudos</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { background: #000; font-family: 'Inter', sans-serif; color: #fff; width: 100%; }
+        .csi-container { max-width: 1200px; margin: 0 auto; padding: 30px; }
+
+        .header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: #00d4ff; }
+
+        .consult-box { background: rgba(8,12,24,0.75); padding: 20px; border-radius: 8px; border: 1px solid rgba(0,212,255,0.3); }
+        .consult-box label { font-family: 'Orbitron', sans-serif; font-size: 12px; color: #ffcc00; margin-bottom: 10px; display: block; }
+        .consult-box input { width: 100%; padding: 12px; background: #020617; border: 1px solid rgba(0,212,255,0.3); border-radius: 6px; color: #fff; margin-bottom: 10px; }
+        .consult-box button { padding: 12px 20px; background: #ffcc00; color: #000; border: none; border-radius: 6px; font-family: 'Orbitron', sans-serif; font-weight: 900; cursor: pointer; }
+
+        #mensagem-status { margin-top: 10px; font-size: 12px; font-family: 'Orbitron', sans-serif; }
+    </style>
+
+    <script>
 async function buscarLaudo() {
     const tokenDigitado = document.getElementById("token-gem").value.trim();
 
@@ -9,24 +35,19 @@ async function buscarLaudo() {
 
     document.getElementById("mensagem-status").innerHTML = "Procurando token nas pastas...";
 
-    // DIRETÓRIOS RAIZ
     const diretoriosRaiz = ["patrimonial", "viabilidade"];
 
     for (const raiz of diretoriosRaiz) {
-
         try {
-            // LISTA TODAS AS PASTAS DENTRO DE patrimonial/ OU viabilidade/
             const respostaLista = await fetch(`${raiz}/`);
             const textoLista = await respostaLista.text();
 
-            // EXTRAI NOMES DE PASTAS DO HTML DO GITHUB PAGES
             const regexPastas = /href="([^"]+)\/"/g;
             let match;
 
             while ((match = regexPastas.exec(textoLista)) !== null) {
                 const pasta = match[1];
 
-                // Caminho do token.json dentro da pasta
                 const caminhoToken = `${raiz}/${pasta}/token.json`;
 
                 try {
@@ -37,7 +58,6 @@ async function buscarLaudo() {
                     const dados = await respostaToken.json();
 
                     if (dados.token === tokenDigitado) {
-                        // ACHOU O TOKEN
                         const destino = `${raiz}/${pasta}/pagina_01/pagina_01.html?token=${encodeURIComponent(tokenDigitado)}`;
                         window.location.href = destino;
                         return;
@@ -56,3 +76,25 @@ async function buscarLaudo() {
     document.getElementById("mensagem-status").innerHTML = "Nenhum laudo encontrado.";
 }
 </script>
+
+    </head>
+<body>
+
+<div class="csi-container">
+
+    <div class="header">
+        <div class="logo"><i class="fa-solid fa-gem"></i> CSI GEMLAB</div>
+    </div>
+
+    <div class="consult-box">
+        <label>Rastrear Laudo Oficial</label>
+        <input id="token-gem" type="text" placeholder="Digite o token do laudo">
+        <button onclick="buscarLaudo()">Consultar</button>
+        <div id="mensagem-status"></div>
+    </div>
+
+</div>
+
+</body>
+</html>
+
