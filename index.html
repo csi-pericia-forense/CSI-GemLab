@@ -106,7 +106,7 @@ async function buscarLaudo() {
     for (const categoria of categorias) {
         for (const pasta of pastas) {
             try {
-                const caminho = `/${categoria}/${pasta}/token/token.csi`;
+                const caminho = `/CSI-GemLab/${categoria}/${pasta}/token/token.csi`;
 
                 const resposta = await fetch(caminho);
 
@@ -115,12 +115,10 @@ async function buscarLaudo() {
                 const tokenArquivo = (await resposta.text()).trim();
 
                 if (tokenArquivo === tokenDigitado) {
-                    window.location.href = `/${categoria}/${pasta}/pagina_01/pagina_01.html?token=${tokenDigitado}`;
+                    window.location.href = `/CSI-GemLab/${categoria}/${pasta}/pagina_01/pagina_01.html?token=${tokenDigitado}`;
                     return;
                 }
-            } catch (e) {
-                // ignora erros
-            }
+            } catch (e) {}
         }
     }
 
