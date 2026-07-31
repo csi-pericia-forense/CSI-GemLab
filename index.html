@@ -282,49 +282,42 @@ async function buscarLaudo() {
         return;
     }
 
-    // LISTA DE PASTAS QUE EXISTEM NO SEU REPOSITÓRIO
-    // (NÃO É CAMINHO FIXO — É CONSULTA)
+    // LISTA DE PASTAS EXISTENTES
     const pastas = [
         "01_CSI-000-P",
-        "01_CSI-000-V",
-        "01_CSI-000",
-        "01_CSI-001",
-        "01_CSI-002"
-        // você pode adicionar mais pastas futuramente
+        "01_CSI-000-V"
     ];
 
-    // PROCURA SOMENTE NA CATEGORIA CORRETA
     for (const pasta of pastas) {
 
-        // IGNORA PASTAS QUE NÃO COMBINAM COM O TOKEN
+        // Só tenta pastas que combinam com o tipo do token
         if (tokenDigitado.endsWith("-P") && !pasta.endsWith("-P")) continue;
         if (tokenDigitado.endsWith("-V") && !pasta.endsWith("-V")) continue;
 
-        // CONSULTA O TOKEN DENTRO DA PASTA
-        const caminhoToken = `${categoria}/${pasta}/token/token.csi`;
+        const caminhoToken = `${categoria}/${pasta}/token/token.json`;
 
         try {
             const resposta = await fetch(caminhoToken);
 
             if (!resposta.ok) continue;
 
-            const tokenArquivo = (await resposta.text()).trim();
+            const dados = await resposta.json();
 
-            // SE O TOKEN BATER → ABRE A PÁGINA 01 DA PASTA CORRETA
-            if (tokenArquivo === tokenDigitado) {
+            if (dados.token === tokenDigitado) {
                 const destino = `${categoria}/${pasta}/pagina_01/pagina_01.html?token=${encodeURIComponent(tokenDigitado)}`;
                 window.location.href = destino;
                 return;
             }
 
         } catch (e) {
-            // ignora erros
+            console.log("Erro ao ler token:", e);
         }
     }
 
     document.getElementById("resultado").innerHTML = "Nenhum laudo encontrado.";
 }
 </script>
+
 
 </head>
 <body>
