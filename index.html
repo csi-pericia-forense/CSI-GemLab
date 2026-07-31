@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>CSI GemLab – Consulta</title>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -13,14 +16,19 @@
       color: #fff;
     }
 
+    /* BANNER FINO E PROFISSIONAL */
     .banner {
       width: 100%;
       padding: 10px 20px;
       display: flex;
       align-items: center;
       gap: 15px;
+
+      /* Borda neon fina */
       border-bottom: 2px solid #00aaff;
       box-shadow: 0 0 6px #00aaff;
+
+      /* Fundo totalmente transparente */
       background: transparent;
     }
 
@@ -38,7 +46,7 @@
       border: 2px solid #00aaff;
       background: transparent;
       color: #fff;
-      width: 220px;
+      width: 200px;
       outline: none;
       box-shadow: 0 0 6px #0077aa;
     }
@@ -61,6 +69,7 @@
       box-shadow: 0 0 14px #33cfff;
     }
 
+    /* Resultado – também transparente */
     #resultado {
       margin-top: 15px;
       padding: 10px;
@@ -76,54 +85,39 @@
 
 <div class="banner">
   <label>Insira o token do laudo:</label>
-  <input id="campoToken" placeholder="Ex: CSI-DATA-HHMMSS-TESTE">
+  <input id="campoToken" placeholder="Ex: AB12345">
   <button onclick="buscarLaudo()">Consultar</button>
 </div>
 
 <div id="resultado"></div>
 
 <script>
-async function buscarLaudo() {
-    const tokenDigitado = document.getElementById("campoToken").value.trim();
+  const firebaseConfig = {
+    apiKey: "AIzaSyCdr899qbxpWUeRzdiTPO9rhnjdLMU8dcU",
+    authDomain: "csi-gemlab.firebaseapp.com",
+    projectId: "csi-gemlab"
+  };
 
-    if (!tokenDigitado) {
-        document.getElementById("resultado").innerHTML = "Digite o token.";
-        return;
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  async function buscarLaudo() {
+    const token = document.getElementById("campoToken").value.trim();
+    const ref = db.collection("laudos").where("token", "==", token);
+    const resultado = await ref.get();
+
+    if (resultado.empty) {
+      document.getElementById("resultado").innerHTML = "Nenhum laudo encontrado.";
+      return;
     }
 
-    document.getElementById("resultado").innerHTML = "Acessando Base de Dados Forense...";
+    resultado.forEach(doc => {
+      const d = doc.data();
 
-    // CATEGORIAS PRINCIPAIS
-    const categorias = ["patrimonial", "viabilidade"];
-
-    // SUBPASTAS (adicione conforme criar novos laudos)
-    const pastas = [
-        "01_CSI-000",
-        "01_CSI-000-V"
-    ];
-
-    // VARREDURA
-    for (const categoria of categorias) {
-        for (const pasta of pastas) {
-            try {
-                const caminho = `/CSI-GemLab/${categoria}/${pasta}/token/token.csi`;
-
-                const resposta = await fetch(caminho);
-
-                if (!resposta.ok) continue;
-
-                const tokenArquivo = (await resposta.text()).trim();
-
-                if (tokenArquivo === tokenDigitado) {
-                    window.location.href = `/CSI-GemLab/${categoria}/${pasta}/pagina_01/pagina_01.html?token=${tokenDigitado}`;
-                    return;
-                }
-            } catch (e) {}
-        }
-    }
-
-    document.getElementById("resultado").innerHTML = "Nenhum laudo encontrado.";
-}
+      /* Redireciona para a página da gema (pasta 1) */
+      window.location.href = d.link_pasta_1;
+    });
+  }
 </script>
 
 </body>
