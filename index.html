@@ -189,33 +189,54 @@ async function buscarLaudo() {
 
     document.getElementById("resultado").innerHTML = "Acessando Base de Dados Forense...";
 
-    const categorias = ["patrimonial", "viabilidade"];
-    const pastas = ["01_CSI-000", "01_CSI-000-V"];
+    // IDENTIFICA SE O TOKEN É P OU V
+    let categoria = "";
+    let pastaCliente = "";
 
-    for (const categoria of categorias) {
-        for (const pasta of pastas) {
+    if (tokenDigitado.endsWith("-P")) {
+        categoria = "patrimonial";
+        pastaCliente = "01_CSI-000-P";
+    } 
+    else if (tokenDigitado.endsWith("-V")) {
+        categoria = "viabilidade";
+        pastaCliente = "01_CSI-000-V";
+    } 
+    else {
+        document.getElementById("resultado").innerHTML = "Token inválido (faltando -P ou -V).";
+        return;
+    }
 
-            const caminho = `/CSI-GemLab/${categoria}/${pasta}/token/token.csi`;
+    // CAMINHO DO TOKEN
+    const caminhoToken = `${categoria}/${pastaCliente}/token/token.csi`;
 
-            try {
-                const resposta = await fetch(caminho);
+    try {
+        const resposta = await fetch(caminhoToken);
 
-                if (!resposta.ok) continue;
-
-                const tokenArquivo = (await resposta.text()).trim();
-
-                if (tokenArquivo === tokenDigitado) {
-                    window.location.href = `/CSI-GemLab/${categoria}/${pasta}/pagina_01/pagina_01.html?token=${tokenDigitado}`;
-                    return;
-                }
-
-            } catch (e) {}
+        if (!resposta.ok) {
+            document.getElementById("resultado").innerHTML = "Token não encontrado.";
+            return;
         }
+
+        const tokenArquivo = (await resposta.text()).trim();
+
+        if (tokenArquivo === tokenDigitado) {
+
+            // REDIRECIONA PARA A PÁGINA 01
+            const destino = `${categoria}/${pastaCliente}/pagina_01/pagina_01.html?token=${encodeURIComponent(tokenDigitado)}`;
+
+            window.location.href = destino;
+            return;
+        }
+
+    } catch (e) {
+        document.getElementById("resultado").innerHTML = "Erro ao acessar o token.";
+        return;
     }
 
     document.getElementById("resultado").innerHTML = "Nenhum laudo encontrado.";
 }
 </script>
+
 
 </body>
 </html>
