@@ -35,24 +35,22 @@ h1, h2 {
     box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
 }
 
-.json-box {
-    background: rgba(0,0,0,0.4);
-    padding: 15px;
-    border-radius: 10px;
-    white-space: pre-wrap;
-    font-size: 16px;
-    border: 1px solid #00f3ff;
+.card p {
+    text-align: center;
+    font-size: 18px;
 }
 
 .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
     margin-top: 20px;
 }
 
 .image-grid img {
-    width: 100%;
+    width: 180px;
+    height: auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
 }
@@ -91,55 +89,61 @@ h1, h2 {
     <div class="card">
         <p>
             Esta página apresenta os resultados completos dos motores periciais digitais executados
-            pelo sistema CSI GemLab. Cada motor realiza análises específicas, podendo gerar:
-        </p>
-
-        <ul>
-            <li>Relatórios estruturados (JSON)</li>
-            <li>Imagens técnicas</li>
-            <li>Dados complementares</li>
-        </ul>
-
-        <p>
-            Abaixo você encontrará cada exame separado, organizado e apresentado de forma clara
-            para consulta pública avançada.
+            pelo sistema CSI GemLab. Cada motor realiza análises específicas, podendo gerar relatórios,
+            dados estruturados e imagens técnicas.
         </p>
     </div>
 
     <!-- MOTOR 01 -->
     <div class="card">
         <h2>Exame 01 — Motor 01</h2>
-        <div id="motor01" class="json-box">Carregando...</div>
+        <p>Inserir resultados do motor 01</p>
     </div>
 
     <!-- MOTOR 02 -->
     <div class="card">
         <h2>Exame 02 — Motor 02</h2>
-        <div id="motor02" class="json-box">Carregando...</div>
+        <p>Inserir resultados do motor 02</p>
     </div>
 
     <!-- MOTOR 03 -->
     <div class="card">
         <h2>Exame 03 — Motor 03</h2>
-        <div id="motor03" class="json-box">Carregando...</div>
+        <p>Inserir resultados do motor 03</p>
     </div>
 
     <!-- MOTOR 04 (IMAGENS) -->
     <div class="card">
         <h2>Exame 04 — Motor 04 (Imagens)</h2>
-        <div id="motor04" class="image-grid"></div>
+        <p>Inserir imagens do motor 04</p>
+        <div class="image-grid">
+            <!-- Exemplo de imagens (você vai substituir depois) -->
+            <img src="relatorio_motor_04/imagem_01.jpg" alt="">
+            <img src="relatorio_motor_04/imagem_02.jpg" alt="">
+            <img src="relatorio_motor_04/imagem_03.jpg" alt="">
+        </div>
     </div>
 
     <!-- MOTOR 05 (IMAGENS) -->
     <div class="card">
         <h2>Exame 05 — Motor 05 (Imagens)</h2>
-        <div id="motor05" class="image-grid"></div>
+        <p>Inserir imagens do motor 05</p>
+        <div class="image-grid">
+            <img src="relatorio_motor_05/imagem_01.jpg" alt="">
+            <img src="relatorio_motor_05/imagem_02.jpg" alt="">
+            <img src="relatorio_motor_05/imagem_03.jpg" alt="">
+        </div>
     </div>
 
     <!-- MOTOR 06 (IMAGENS) -->
     <div class="card">
         <h2>Exame 06 — Motor 06 (Imagens)</h2>
-        <div id="motor06" class="image-grid"></div>
+        <p>Inserir imagens do motor 06</p>
+        <div class="image-grid">
+            <img src="relatorio_motor_06/imagem_01.jpg" alt="">
+            <img src="relatorio_motor_06/imagem_02.jpg" alt="">
+            <img src="relatorio_motor_06/imagem_03.jpg" alt="">
+        </div>
     </div>
 
     <button class="button" onclick="window.location.href='../pagina_03/pagina_03.html'">
@@ -147,44 +151,6 @@ h1, h2 {
     </button>
 
 </div>
-
-<script>
-// -------- JSON LOADERS --------
-async function loadJSON(id, file) {
-    try {
-        const r = await fetch(file);
-        const t = await r.text();
-        document.getElementById(id).innerText = t;
-    } catch {
-        document.getElementById(id).innerText = "Erro ao carregar o relatório.";
-    }
-}
-
-loadJSON("motor01", "relatorio_motor_01.json");
-loadJSON("motor02", "relatorio_motor_02.json");
-loadJSON("motor03", "relatorio_motor_03.json");
-
-// -------- IMAGE LOADERS --------
-function loadImages(id, folder) {
-    const container = document.getElementById(id);
-
-    const images = [
-        "imagem_01.jpg",
-        "imagem_02.jpg",
-        "imagem_03.jpg"
-    ];
-
-    images.forEach(img => {
-        const el = document.createElement("img");
-        el.src = `${folder}/${img}`;
-        container.appendChild(el);
-    });
-}
-
-loadImages("motor04", "relatorio_motor_04");
-loadImages("motor05", "relatorio_motor_05");
-loadImages("motor06", "relatorio_motor_06");
-</script>
 
 </body>
 </html>
